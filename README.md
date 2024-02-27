@@ -14,9 +14,7 @@ Este aplicativo foi projetado para facilitar a busca, o empréstimo e a devoluç
 
 Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 
-- React.js 📘
-- Redux 📕
-- Material-UI 📙
+- Flutter 📘
 
 ## 🚀 Como executar
 
