@@ -27,7 +27,7 @@ class Livro {
       sinopse: json['sinopse'],
       isbn: json['isbn'],
       imagem_capa: json['imagem_capa'],
-      disponibilidade: json['disponibilidade'],
+      disponibilidade: json['disponibilidade'].toString(),
     );
   }
 }

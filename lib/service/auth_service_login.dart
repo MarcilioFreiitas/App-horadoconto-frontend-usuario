@@ -15,26 +15,58 @@ void login(String email, String password, BuildContext context) async {
     body: jsonEncode(<String, String>{'email': email, 'senha': password}),
   );
 
-  if (response.statusCode == 200) {
-    print('Login bem-sucedido');
-    Map<String, dynamic> responseBody = jsonDecode(response.body);
-    String token = responseBody['token'];
-    print('Token: $token');
+  try {
+    if (response.statusCode == 200) {
+      print('Login bem-sucedido');
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      String token = responseBody['token'];
+      print('Token: $token');
 
-    final storage = new FlutterSecureStorage();
-    await storage.write(key: 'token', value: token);
+      final storage = new FlutterSecureStorage();
+      await storage.write(key: 'token', value: token);
 
-    // Buscar a lista de livros após o login bem-sucedido
-    List<Livro> livros = await getLivros(token);
+      // Buscar a lista de livros após o login bem-sucedido
+      List<Livro> livros = await getLivros(token);
 
-    // Navegar para a TelaInicial com a lista de livros
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => TelaInicial(livros: livros)),
-    );
-  } else {
-    throw Exception('Falha ao fazer login');
+      // Navegar para a TelaInicial com a lista de livros
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => TelaInicial(livros: livros)),
+      );
+    } else if (response.statusCode == 401) {
+      // Tratamento de erro para credenciais inválidas
+      showErrorMessage(
+          context, 'Credenciais inválidas. Por favor, tente novamente.');
+    } else {
+      // Tratamento de erro para outros códigos de status HTTP
+      showErrorMessage(
+          context, 'Credenciais inválidas. Por favor, tente novamente.');
+    }
+  } catch (e) {
+    print('Erro: $e');
+    showErrorMessage(
+        context, 'Credenciais inválidas. Por favor, tente novamente.');
   }
+}
+
+void showErrorMessage(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Erro'),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Fechar'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
 
 Future<List<Livro>> getLivros(String token) async {
