@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hora_do_conto/models/livro.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future<void> criarEmprestimo(String usuarioId, String livroId,
     DateTime dataRetirada, DateTime dataDevolucao) async {
   var url =
-      'http://seu-servidor.com/api/emprestimos'; // Substitua pela URL da sua API
+      'http://10.0.0.107:8080/emprestimo/criarEmpresitmo'; // Substitua pela URL da sua API
 
   var response = await http.post(
     Uri.parse(url),
@@ -39,7 +40,31 @@ class DetalhesEmprestimo extends StatefulWidget {
 }
 
 class _DetalhesEmprestimoState extends State<DetalhesEmprestimo> {
+  Livro? livro;
   DateTime? dataDevolucao;
+
+  Future<void> fetchLivro() async {
+    // Substitua 'http://seu-servidor/livros/${widget.livroId}' pela URL da sua API
+    final response = await http.get(
+        Uri.parse('http://10.0.0.107:8080/livros/listar/${widget.livroId}'));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      print(
+          'Dados do livro: $data'); // Adicione este print para verificar os dados
+      setState(() {
+        livro = Livro.fromJson(data);
+      });
+    } else {
+      print('Erro ao buscar livro: ${response.statusCode}');
+      // Tratar erros na requisição
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchLivro();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +76,18 @@ class _DetalhesEmprestimoState extends State<DetalhesEmprestimo> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            if (livro != null) ...[
+              Text('Título: ${livro!.titulo}'),
+              Text('Autor: ${livro!.autor}'),
+              Text('Ano: ${livro!.genero}'),
+              Text('Editora: ${livro!.disponibilidade}'),
+              Text('ISBN: ${livro!.isbn}'),
+              SizedBox(height: 20),
+            ] else ...[
+              CircularProgressIndicator(),
+              SizedBox(height: 20),
+              Text('Carregando informações do livro...'),
+            ],
             Text(
               'Data de Devolução:',
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -77,11 +114,29 @@ class _DetalhesEmprestimoState extends State<DetalhesEmprestimo> {
               Text('Data Selecionada: ${dataDevolucao?.toLocal()}'),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                // Substitua 'usuarioId' e 'livroId' pelos IDs apropriados
-                criarEmprestimo(
-                    'usuarioId', 'livroId', DateTime.now(), dataDevolucao!);
-              },
+              onPressed: dataDevolucao != null
+                  ? () async {
+                      try {
+                        // Substitua 'usuarioId' pelo ID do usuário logado
+                        await criarEmprestimo('usuarioId', widget.livroId,
+                            DateTime.now(), dataDevolucao!);
+                        // Exibir mensagem de sucesso (opcional)
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Empréstimo solicitado com sucesso!'),
+                          ),
+                        );
+                      } catch (error) {
+                        // Exibir mensagem de erro
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content:
+                                Text('Erro ao solicitar empréstimo: $error'),
+                          ),
+                        );
+                      }
+                    }
+                  : null,
               child: Text('Solicitar Empréstimo'),
             ),
           ],

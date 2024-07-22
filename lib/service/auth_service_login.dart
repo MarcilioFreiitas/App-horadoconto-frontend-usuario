@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:hora_do_conto/views/tela_inicial.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 import 'dart:convert';
 
-import 'livro.dart';
+import '../models/livro.dart';
+import '../models/usuario.dart';
 
 void login(String email, String password, BuildContext context) async {
   final response = await http.post(
-    Uri.parse('http://10.0.0.106:8080/auth/login'),
+    Uri.parse('http://10.0.0.107:8080/auth/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -22,8 +24,26 @@ void login(String email, String password, BuildContext context) async {
       String token = responseBody['token'];
       print('Token: $token');
 
+      // Decodificar o token para obter os atributos do usuário
+      Map<String, dynamic> payload = Jwt.parseJwt(token);
+      print('Payload: $payload'); // Verificar o conteúdo do payload
+
+      Usuario usuario = Usuario.fromJson(payload);
+
       final storage = new FlutterSecureStorage();
       await storage.write(key: 'token', value: token);
+      await storage.write(key: 'user_id', value: usuario.id?.toString() ?? '');
+      await storage.write(key: 'user_nome', value: usuario.nome ?? '');
+      await storage.write(
+          key: 'user_sobreNome', value: usuario.sobreNome ?? '');
+      await storage.write(key: 'user_cpf', value: usuario.cpf ?? '');
+      await storage.write(key: 'user_email', value: usuario.email ?? '');
+      await storage.write(
+          key: 'user_role', value: usuario.role?.toString() ?? '');
+
+      // Verificar se os dados foram armazenados corretamente
+      String? storedToken = await storage.read(key: 'token');
+      print('Stored Token: $storedToken');
 
       // Buscar a lista de livros após o login bem-sucedido
       List<Livro> livros = await getLivros(token);
@@ -44,6 +64,7 @@ void login(String email, String password, BuildContext context) async {
     }
   } catch (e) {
     print('Erro: $e');
+    // ignore: use_build_context_synchronously
     showErrorMessage(
         context, 'Credenciais inválidas. Por favor, tente novamente.');
   }
@@ -71,7 +92,7 @@ void showErrorMessage(BuildContext context, String message) {
 
 Future<List<Livro>> getLivros(String token) async {
   final response = await http.get(
-    Uri.parse('http://10.0.0.106:8080/livros/listar'),
+    Uri.parse('http://10.0.0.107:8080/livros/listar'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + token,

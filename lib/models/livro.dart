@@ -1,3 +1,5 @@
+enum Disponibilidade { disponivel, emprestado, reservado }
+
 class Livro {
   final int id;
   final String titulo;
@@ -29,5 +31,18 @@ class Livro {
       imagem_capa: json['imagem_capa'],
       disponibilidade: json['disponibilidade'].toString(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'titulo': titulo,
+      'autor': autor,
+      'genero': genero,
+      'sinopse': sinopse,
+      'isbn': isbn,
+      'imagem_capa': imagem_capa,
+      'disponibilidade': disponibilidade.toString(),
+    };
   }
 }

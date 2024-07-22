@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hora_do_conto/service/livro.dart';
+import 'package:hora_do_conto/models/livro.dart';
 
 class LivroSearch extends SearchDelegate<String> {
   final List<Livro> livros;

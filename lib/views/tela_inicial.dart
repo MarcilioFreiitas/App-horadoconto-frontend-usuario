@@ -3,7 +3,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hora_do_conto/views/detalhes_emprestimo.dart';
 import 'package:hora_do_conto/views/livro_search.dart';
 import 'package:hora_do_conto/views/login.dart';
-import '../service/livro.dart';
+import 'package:hora_do_conto/views/tela_perfil.dart';
+import '../models/livro.dart';
 import 'login_page.dart';
 import 'dart:convert';
 
@@ -18,7 +19,7 @@ class TelaInicial extends StatefulWidget {
 class _TelaInicialState extends State<TelaInicial> {
   int _indiceAtual = 0;
   String servidor =
-      'http://10.0.0.106:8080'; // Adicione a URL base do seu servidor aqui
+      'http://10.0.0.107:8080'; // Adicione a URL base do seu servidor aqui
   List<Livro> livrosExibidos = [];
   ScrollController _scrollController = ScrollController();
 
@@ -175,70 +176,86 @@ class _TelaInicialState extends State<TelaInicial> {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Hora do conto'),
-        backgroundColor: Colors.black,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () async {
-              // Implemente a lógica de busca aqui
-              String? busca = await showSearch(
-                context: context,
-                delegate: LivroSearch(widget.livros),
-              );
-              print('Busca: $busca');
-            },
-          ),
-        ],
-      ),
-      body: _telas[_indiceAtual],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _indiceAtual,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
-        ],
-        onTap: (index) {
-          setState(() {
-            _indiceAtual = index;
-          });
-        },
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Text('Menu'),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-            ),
-            ListTile(
-              title: Text('Item 1'),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text('Item 2'),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text('Sair'),
-              onTap: () async {
-                // Limpar os dados de sessão
-                final storage = new FlutterSecureStorage();
-                await storage.delete(key: 'token');
-                // Navegar para a tela de login
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LogIn()),
+        appBar: AppBar(
+          title: Text('Hora do conto'),
+          backgroundColor: Colors.black,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () async {
+                // Implemente a lógica de busca aqui
+                String? busca = await showSearch(
+                  context: context,
+                  delegate: LivroSearch(widget.livros),
                 );
+                print('Busca: $busca');
               },
             ),
           ],
         ),
-      ),
-    );
+        body: _telas[_indiceAtual],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _indiceAtual,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
+          ],
+          onTap: (index) {
+            setState(() {
+              _indiceAtual = index;
+            });
+          },
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                        'assets/images/logo1.png'), // Caminho da imagem
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              ListTile(
+                title: Text('Meu perfil'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PerfilScreen()),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('Gerenciar empréstimos'),
+                onTap: () {
+                  // Adicione a lógica para gerenciar empréstimos aqui
+                },
+              ),
+              ListTile(
+                title: Text('Sair'),
+                onTap: () async {
+                  // Limpar os dados de sessão
+                  final storage = new FlutterSecureStorage();
+                  await storage.delete(key: 'token');
+                  // Navegar para a tela de login
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => LogIn()),
+                  );
+                },
+              ),
+            ],
+          ),
+        ));
   }
 }
