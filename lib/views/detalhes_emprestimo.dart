@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hora_do_conto/models/livro.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -6,7 +7,7 @@ import 'dart:convert';
 Future<void> criarEmprestimo(String usuarioId, String livroId,
     DateTime dataRetirada, DateTime dataDevolucao) async {
   var url =
-      'http://10.0.0.107:8080/emprestimo/criarEmpresitmo'; // Substitua pela URL da sua API
+      'http://10.0.0.107:8080/emprestimo/criarEmprestimo'; // Substitua pela URL da sua API
 
   var response = await http.post(
     Uri.parse(url),
@@ -14,8 +15,8 @@ Future<void> criarEmprestimo(String usuarioId, String livroId,
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, dynamic>{
-      'usuario_id': usuarioId,
-      'livro_id': livroId,
+      'usuario': {'id': usuarioId},
+      'livro': {'id': livroId},
       'dataRetirada': dataRetirada.toIso8601String(),
       'dataDevolucao': dataDevolucao.toIso8601String(),
       'statusEmprestimo': 'PENDENTE',
@@ -42,6 +43,7 @@ class DetalhesEmprestimo extends StatefulWidget {
 class _DetalhesEmprestimoState extends State<DetalhesEmprestimo> {
   Livro? livro;
   DateTime? dataDevolucao;
+  final FlutterSecureStorage _storage = FlutterSecureStorage();
 
   Future<void> fetchLivro() async {
     final response = await http.get(
@@ -141,8 +143,14 @@ class _DetalhesEmprestimoState extends State<DetalhesEmprestimo> {
                             ? () async {
                                 try {
                                   // Substitua 'usuarioId' pelo ID do usuário logado
+                                  String? usuarioId =
+                                      await _storage.read(key: 'user_id');
+                                  if (usuarioId == null) {
+                                    throw Exception(
+                                        'ID do usuário não encontrado');
+                                  }
                                   await criarEmprestimo(
-                                      'usuarioId',
+                                      usuarioId,
                                       widget.livroId,
                                       DateTime.now(),
                                       dataDevolucao!);
