@@ -5,7 +5,6 @@ import 'package:hora_do_conto/views/livro_search.dart';
 import 'package:hora_do_conto/views/login.dart';
 import 'package:hora_do_conto/views/tela_perfil.dart';
 import '../models/livro.dart';
-import 'login_page.dart';
 import 'dart:convert';
 
 class TelaInicial extends StatefulWidget {

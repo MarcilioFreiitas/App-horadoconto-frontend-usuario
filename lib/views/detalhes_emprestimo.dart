@@ -44,9 +44,8 @@ class _DetalhesEmprestimoState extends State<DetalhesEmprestimo> {
   DateTime? dataDevolucao;
 
   Future<void> fetchLivro() async {
-    // Substitua 'http://seu-servidor/livros/${widget.livroId}' pela URL da sua API
     final response = await http.get(
-        Uri.parse('http://10.0.0.107:8080/livros/listar/${widget.livroId}'));
+        Uri.parse('http://10.0.0.107:8080/livros/buscar/${widget.livroId}'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
       print(
@@ -69,79 +68,114 @@ class _DetalhesEmprestimoState extends State<DetalhesEmprestimo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Detalhes do Empréstimo'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            if (livro != null) ...[
-              Text('Título: ${livro!.titulo}'),
-              Text('Autor: ${livro!.autor}'),
-              Text('Ano: ${livro!.genero}'),
-              Text('Editora: ${livro!.disponibilidade}'),
-              Text('ISBN: ${livro!.isbn}'),
-              SizedBox(height: 20),
-            ] else ...[
-              CircularProgressIndicator(),
-              SizedBox(height: 20),
-              Text('Carregando informações do livro...'),
-            ],
-            Text(
-              'Data de Devolução:',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                final DateTime? dataSelecionada = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime.now().add(Duration(days: 365)),
-                );
-                if (dataSelecionada != null) {
-                  setState(() {
-                    dataDevolucao = dataSelecionada;
-                  });
-                }
-              },
-              child: Text('Selecionar Data'),
-            ),
-            SizedBox(height: 20),
-            if (dataDevolucao != null)
-              Text('Data Selecionada: ${dataDevolucao?.toLocal()}'),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: dataDevolucao != null
-                  ? () async {
-                      try {
-                        // Substitua 'usuarioId' pelo ID do usuário logado
-                        await criarEmprestimo('usuarioId', widget.livroId,
-                            DateTime.now(), dataDevolucao!);
-                        // Exibir mensagem de sucesso (opcional)
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Empréstimo solicitado com sucesso!'),
-                          ),
-                        );
-                      } catch (error) {
-                        // Exibir mensagem de erro
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content:
-                                Text('Erro ao solicitar empréstimo: $error'),
-                          ),
-                        );
-                      }
-                    }
-                  : null,
-              child: Text('Solicitar Empréstimo'),
-            ),
-          ],
+        appBar: AppBar(
+          title: Text('Detalhes do Empréstimo'),
         ),
-      ),
-    );
+        body: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              if (livro != null) ...[
+                Expanded(
+                  flex: 1,
+                  child: Image.network(
+                    'http://10.0.0.107:8080${livro!.imagem_capa}', // Use a propriedade 'imagem_capa' do seu modelo 'Livro'
+                    width: 300, // Ajuste a largura da imagem conforme desejado
+                    height: 300, // Ajuste a altura da imagem conforme desejado
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return CircularProgressIndicator();
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Text('Erro ao carregar imagem');
+                    },
+                  ),
+                ),
+                SizedBox(width: 10), // Espaço entre a imagem e os atributos
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(height: 80),
+                      Text('Título: ${livro!.titulo}'),
+                      SizedBox(height: 5),
+                      Text('Autor: ${livro!.autor}'),
+                      SizedBox(height: 5),
+                      Text('Ano: ${livro!.genero}'),
+                      SizedBox(height: 5),
+                      Text('Disponibilidade: ${livro!.disponibilidade}'),
+                      SizedBox(height: 5),
+                      Text('ISBN: ${livro!.isbn}'),
+                      SizedBox(height: 5),
+                      Text('Sinopse: ${livro!.sinopse}'),
+                      SizedBox(height: 20),
+                      Text(
+                        'Data de Devolução:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () async {
+                          final DateTime? dataSelecionada =
+                              await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime.now().add(Duration(days: 365)),
+                          );
+                          if (dataSelecionada != null) {
+                            setState(() {
+                              dataDevolucao = dataSelecionada;
+                            });
+                          }
+                        },
+                        child: Text('Selecionar Data'),
+                      ),
+                      SizedBox(height: 10),
+                      if (dataDevolucao != null)
+                        Text('Data Selecionada: ${dataDevolucao?.toLocal()}'),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: dataDevolucao != null
+                            ? () async {
+                                try {
+                                  // Substitua 'usuarioId' pelo ID do usuário logado
+                                  await criarEmprestimo(
+                                      'usuarioId',
+                                      widget.livroId,
+                                      DateTime.now(),
+                                      dataDevolucao!);
+                                  // Exibir mensagem de sucesso (opcional)
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          'Empréstimo solicitado com sucesso!'),
+                                    ),
+                                  );
+                                } catch (error) {
+                                  // Exibir mensagem de erro
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          'Erro ao solicitar empréstimo: $error'),
+                                    ),
+                                  );
+                                }
+                              }
+                            : null,
+                        child: Text('Solicitar Empréstimo'),
+                      ),
+                    ],
+                  ),
+                ),
+              ] else ...[
+                CircularProgressIndicator(),
+                SizedBox(width: 20),
+                Text('Carregando informações do livro...'),
+              ],
+            ],
+          ),
+        ));
   }
 }
