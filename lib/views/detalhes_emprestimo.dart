@@ -72,6 +72,7 @@ class _DetalhesEmprestimoState extends State<DetalhesEmprestimo> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Detalhes do Empréstimo'),
+          backgroundColor: Colors.black,
         ),
         body: Center(
           child: Row(
@@ -132,6 +133,9 @@ class _DetalhesEmprestimoState extends State<DetalhesEmprestimo> {
                             });
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.black, // Cor preta
+                        ),
                         child: Text('Selecionar Data'),
                       ),
                       SizedBox(height: 10),
@@ -172,6 +176,9 @@ class _DetalhesEmprestimoState extends State<DetalhesEmprestimo> {
                                 }
                               }
                             : null,
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.black, // Cor preta
+                        ),
                         child: Text('Solicitar Empréstimo'),
                       ),
                     ],

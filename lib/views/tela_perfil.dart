@@ -27,6 +27,7 @@ class PerfilScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Perfil'),
+        backgroundColor: Colors.black,
       ),
       body: FutureBuilder<Map<String, String?>>(
         future: _getUserInfo(),
@@ -43,10 +44,27 @@ class PerfilScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      '[Insira aqui a URL da imagem do usuário]',
+                    ),
+                    radius: 50.0,
+                  ),
+                  SizedBox(height: 16.0),
                   Text('Nome: ${userInfo['nome'] ?? 'N/A'}'),
                   Text('Sobrenome: ${userInfo['sobreNome'] ?? 'N/A'}'),
                   Text('CPF: ${userInfo['cpf'] ?? 'N/A'}'),
                   Text('Email: ${userInfo['email'] ?? 'N/A'}'),
+                  SizedBox(height: 24.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Implemente a lógica para a tela de edição de dados
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black, // Cor preta
+                    ),
+                    child: Text('Alterar Dados'),
+                  ),
                 ],
               ),
             );

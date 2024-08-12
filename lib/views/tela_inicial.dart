@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hora_do_conto/views/detalhes_emprestimo.dart';
+import 'package:hora_do_conto/views/gerenciar_emprestimo.dart';
 import 'package:hora_do_conto/views/livro_search.dart';
 import 'package:hora_do_conto/views/login.dart';
 import 'package:hora_do_conto/views/tela_perfil.dart';
@@ -197,7 +198,8 @@ class _TelaInicialState extends State<TelaInicial> {
           currentIndex: _indiceAtual,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.category_outlined), label: 'Categoria'),
           ],
           onTap: (index) {
             setState(() {
@@ -237,7 +239,11 @@ class _TelaInicialState extends State<TelaInicial> {
               ListTile(
                 title: Text('Gerenciar empréstimos'),
                 onTap: () {
-                  // Adicione a lógica para gerenciar empréstimos aqui
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EmprestimosComponent()),
+                  );
                 },
               ),
               ListTile(

@@ -2,10 +2,10 @@ import 'package:hora_do_conto/models/livro.dart';
 import 'package:hora_do_conto/models/usuario.dart';
 
 enum EmprestimoStatus {
-  PENDENTE,
-  APROVADO,
+  ATRASADO,
   REJEITADO,
-  FINALIZADO
+  PENDENTE,
+  EMPRESTADO
 } // Assuming StatusEmprestimo is an enum
 
 class Emprestimo {
