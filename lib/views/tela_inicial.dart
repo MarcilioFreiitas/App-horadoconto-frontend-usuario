@@ -123,8 +123,8 @@ class _TelaInicialState extends State<TelaInicial> {
                 ),
               ),
               Positioned(
-                bottom: 10, // Ajuste a margem inferior conforme necessário
-                right: 10, // Ajuste a margem direita conforme necessário
+                bottom: 10,
+                right: 10,
                 child: Row(
                   children: <Widget>[
                     Text(
@@ -138,29 +138,29 @@ class _TelaInicialState extends State<TelaInicial> {
                       ),
                     ),
                     SizedBox(width: 23),
-                    Container(
-                      height:
-                          30, // Ajuste a altura do botão conforme necessário
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary:
-                              Colors.black, // Define a cor do botão como preta
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetalhesEmprestimo(
-                                  livroId: widget.livros[index].id
-                                      .toString()), // Substitua livroId pelo ID do livro
+                    Visibility(
+                      visible: widget.livros[index].disponibilidade == 'true',
+                      child: Container(
+                        height: 30,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.black,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetalhesEmprestimo(
+                                  livroId: widget.livros[index].id.toString(),
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Solicitar Empréstimo',
+                            style: TextStyle(
+                              fontSize: 12,
                             ),
-                          ); // Adicione a lógica do botão aqui
-                        },
-                        child: Text(
-                          'Solicitar Empréstimo',
-                          style: TextStyle(
-                            fontSize:
-                                12, // Ajuste o tamanho do texto conforme necessário
                           ),
                         ),
                       ),

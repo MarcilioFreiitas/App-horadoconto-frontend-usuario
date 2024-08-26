@@ -43,6 +43,10 @@ class _EmprestimosComponentState extends State<EmprestimosComponent> {
     }
   }
 
+  bool _isEmprestado(String status) {
+    return status == 'EMPRESTADO';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +54,10 @@ class _EmprestimosComponentState extends State<EmprestimosComponent> {
         title: Text('Meus Empréstimos'),
         backgroundColor: Colors.black,
       ),
-      body: EmprestimosWidget(emprestimos: emprestimos),
+      body: EmprestimosWidget(
+        emprestimos: emprestimos,
+        isEmprestado: _isEmprestado,
+      ),
     );
   }
 }
