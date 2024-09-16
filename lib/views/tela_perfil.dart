@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:hora_do_conto/views/editar_perfil.dart';
 
-class PerfilScreen extends StatelessWidget {
+class PerfilScreen extends StatefulWidget {
+  @override
+  _PerfilScreenState createState() => _PerfilScreenState();
+}
+
+class _PerfilScreenState extends State<PerfilScreen> {
   final FlutterSecureStorage storage = FlutterSecureStorage();
+  late Future<Map<String, String?>> _userInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    _userInfo = _getUserInfo();
+  }
 
   Future<Map<String, String?>> _getUserInfo() async {
     String? id = await storage.read(key: 'user_id');
@@ -22,6 +35,12 @@ class PerfilScreen extends StatelessWidget {
     };
   }
 
+  void _refreshUserInfo() {
+    setState(() {
+      _userInfo = _getUserInfo();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +49,7 @@ class PerfilScreen extends StatelessWidget {
         backgroundColor: Colors.black,
       ),
       body: FutureBuilder<Map<String, String?>>(
-        future: _getUserInfo(),
+        future: _userInfo,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -58,7 +77,15 @@ class PerfilScreen extends StatelessWidget {
                   SizedBox(height: 24.0),
                   ElevatedButton(
                     onPressed: () {
-                      // Implemente a lógica para a tela de edição de dados
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditarPerfilScreen(
+                            userInfo: userInfo,
+                            onSave: _refreshUserInfo,
+                          ),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.black, // Cor preta

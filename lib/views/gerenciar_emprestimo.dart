@@ -12,6 +12,9 @@ class EmprestimosComponent extends StatefulWidget {
 class _EmprestimosComponentState extends State<EmprestimosComponent> {
   final storage = FlutterSecureStorage();
   List<Map<String, dynamic>> emprestimos = [];
+  List<Map<String, dynamic>> filteredEmprestimos = [];
+  bool isSearching = false;
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
@@ -31,6 +34,7 @@ class _EmprestimosComponentState extends State<EmprestimosComponent> {
           final data = json.decode(response.body);
           setState(() {
             emprestimos = List<Map<String, dynamic>>.from(data);
+            filteredEmprestimos = emprestimos;
           });
         } else {
           print('Erro na resposta: ${response.statusCode}');
@@ -43,6 +47,18 @@ class _EmprestimosComponentState extends State<EmprestimosComponent> {
     }
   }
 
+  void _filterEmprestimos(String query) {
+    final filtered = emprestimos.where((emprestimo) {
+      final titulo = emprestimo['tituloLivro']?.toLowerCase() ?? '';
+      final input = query.toLowerCase();
+      return titulo.contains(input);
+    }).toList();
+
+    setState(() {
+      filteredEmprestimos = filtered;
+    });
+  }
+
   bool _isEmprestado(String status) {
     return status == 'EMPRESTADO';
   }
@@ -51,11 +67,38 @@ class _EmprestimosComponentState extends State<EmprestimosComponent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Meus Empréstimos'),
+        title: !isSearching
+            ? Text('Meus Empréstimos')
+            : TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                  hintText: 'Pesquisar...',
+                  hintStyle: TextStyle(color: Colors.white),
+                  border: InputBorder.none,
+                  filled: true,
+                  fillColor: Colors.black54,
+                ),
+                style: TextStyle(color: Colors.white),
+                onChanged: _filterEmprestimos,
+              ),
         backgroundColor: Colors.black,
+        actions: [
+          IconButton(
+            icon: Icon(isSearching ? Icons.close : Icons.search),
+            onPressed: () {
+              setState(() {
+                isSearching = !isSearching;
+                if (!isSearching) {
+                  searchController.clear();
+                  filteredEmprestimos = emprestimos;
+                }
+              });
+            },
+          ),
+        ],
       ),
       body: EmprestimosWidget(
-        emprestimos: emprestimos,
+        emprestimos: filteredEmprestimos,
         isEmprestado: _isEmprestado,
       ),
     );
