@@ -43,7 +43,7 @@ class _RenovarEmprestimoDialogState extends State<RenovarEmprestimoDialog> {
     try {
       final response = await http.put(
         Uri.parse(
-            'http://10.0.0.107:8080/emprestimo/renovarEmprestimo/${widget.emprestimoId}'),
+            'http://10.0.0.101:8080/emprestimo/renovarEmprestimo/${widget.emprestimoId}'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'dataDevolucao': selectedDate.toIso8601String()}),
       );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hora_do_conto/service/auth_service_login.dart';
+import 'package:hora_do_conto/views/esqueceu_senha.dart';
 import 'package:hora_do_conto/views/singup.dart';
 import 'package:hora_do_conto/widgets/my_input_field.dart';
 import 'package:hora_do_conto/widgets/my_text_button.dart';
@@ -124,16 +125,27 @@ class _LogInState extends State<LogIn> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          "Não tem acesso a conta ?          ",
-                          style: TextStyle(fontSize: 16),
+                        GestureDetector(
+                          child: Text(
+                            "Não tem acesso a conta?",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ForgotPasswordPage()),
+                            );
+                          },
                         ),
+                        SizedBox(width: 20), // Espaço entre as opções
                         GestureDetector(
                           child: Text(
                             "Cadastre-se",
                             style: TextStyle(
-                                fontSize: 16,
-                                color: const Color.fromARGB(255, 2, 10, 17)),
+                              fontSize: 16,
+                              color: const Color.fromARGB(255, 2, 10, 17),
+                            ),
                           ),
                           onTap: () {
                             Navigator.push(

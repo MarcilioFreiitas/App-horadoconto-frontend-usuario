@@ -19,7 +19,7 @@ class TelaInicial extends StatefulWidget {
 
 class _TelaInicialState extends State<TelaInicial> {
   String servidor =
-      'http://10.0.0.107:8080'; // Adicione a URL base do seu servidor aqui
+      'http://10.0.0.101:8080'; // Adicione a URL base do seu servidor aqui
   List<Livro> livrosExibidos = [];
   ScrollController _scrollController = ScrollController();
   bool isFiltered = false;

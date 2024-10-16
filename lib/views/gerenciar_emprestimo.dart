@@ -28,7 +28,7 @@ class _EmprestimosComponentState extends State<EmprestimosComponent> {
       if (userId != null) {
         final response = await http.get(
           Uri.parse(
-              'http://10.0.0.107:8080/emprestimo/listarEmprestimosUsuario/$userId'),
+              'http://10.0.0.101:8080/emprestimo/listarEmprestimosUsuario/$userId'),
         );
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
