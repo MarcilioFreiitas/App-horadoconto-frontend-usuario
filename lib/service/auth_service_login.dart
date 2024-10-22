@@ -10,7 +10,7 @@ import '../models/usuario.dart';
 
 void login(String email, String password, BuildContext context) async {
   final response = await http.post(
-    Uri.parse('http://10.0.0.101:8080/auth/login'),
+    Uri.parse('http://10.0.0.104:8080/auth/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -92,7 +92,7 @@ void showErrorMessage(BuildContext context, String message) {
 
 Future<List<Livro>> getLivros(String token) async {
   final response = await http.get(
-    Uri.parse('http://10.0.0.101:8080/livros/listar'),
+    Uri.parse('http://10.0.0.104:8080/livros/listar'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + token,

@@ -7,20 +7,31 @@ class ForgotPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Esqueceu a Senha")),
+      appBar: AppBar(
+        title: Text("Esqueceu a Senha"),
+        backgroundColor: Colors.black,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              "Por favor, insira seu email para solicitar a redefinição de senha.",
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 20),
             TextField(
               controller: _emailController,
               decoration: InputDecoration(labelText: "Email"),
             ),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Chamar API para solicitar redefinição de senha
                 _requestPasswordReset(context, _emailController.text);
               },
+              style: ElevatedButton.styleFrom(primary: Colors.black),
               child: Text("Enviar"),
             ),
           ],
@@ -48,7 +59,7 @@ class ForgotPasswordPage extends StatelessWidget {
     );
 
     final response = await http.post(
-      Uri.parse('http://10.0.0.101:8080/password/reset'),
+      Uri.parse('http://10.0.0.104:8080/password/reset'),
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       body: {'email': email},
     );

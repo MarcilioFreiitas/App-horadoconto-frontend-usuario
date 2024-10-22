@@ -18,7 +18,7 @@ Future<void> criarEmprestimo(String usuarioId, String livroId,
   }
 
   var url =
-      'http://10.0.0.101:8080/emprestimo/criarEmprestimo'; // Substitua pela URL da sua API
+      'http://10.0.0.104:8080/emprestimo/criarEmprestimo'; // Substitua pela URL da sua API
 
   var response = await http.post(
     Uri.parse(url),
@@ -58,7 +58,7 @@ class _DetalhesEmprestimoState extends State<DetalhesEmprestimo> {
 
   Future<void> fetchLivro() async {
     final response = await http.get(
-        Uri.parse('http://10.0.0.101:8080/livros/buscar/${widget.livroId}'));
+        Uri.parse('http://10.0.0.104:8080/livros/buscar/${widget.livroId}'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
       print(
@@ -93,7 +93,7 @@ class _DetalhesEmprestimoState extends State<DetalhesEmprestimo> {
                 Expanded(
                   flex: 1,
                   child: Image.network(
-                    'http://10.0.0.101:8080${livro!.imagem_capa}', // Use a propriedade 'imagem_capa' do seu modelo 'Livro'
+                    'http://10.0.0.104:8080${livro!.imagem_capa}', // Use a propriedade 'imagem_capa' do seu modelo 'Livro'
                     width: 300, // Ajuste a largura da imagem conforme desejado
                     height: 300, // Ajuste a altura da imagem conforme desejado
                     loadingBuilder: (context, child, loadingProgress) {

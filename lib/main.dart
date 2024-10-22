@@ -1,13 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:hora_do_conto/views/home.dart';
+import 'package:hora_do_conto/views/login.dart';
 import 'package:hora_do_conto/views/redefinir_senha.dart';
 import 'package:uni_links/uni_links.dart';
 import 'dart:async';
-
 import 'views/home_page.dart';
 import 'views/login_page.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
-void main() {
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  tz.initializeTimeZones();
+
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('app_icon');
+  const IOSInitializationSettings initializationSettingsIOS =
+      IOSInitializationSettings();
+
+  final InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
+  );
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
   runApp(MyApp());
 }
 
@@ -18,6 +41,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   StreamSubscription? _sub;
+  String? initialLink;
 
   @override
   void initState() {
@@ -27,12 +51,11 @@ class _MyAppState extends State<MyApp> {
 
   void initUniLinks() async {
     _sub = linkStream.listen((String? link) {
+      print("Link recebido: $link");
       if (link != null) {
-        final uri = Uri.parse(link);
-        final token = uri.queryParameters['token'];
-        if (token != null) {
-          Navigator.pushNamed(context, '/redefinir_senha', arguments: token);
-        }
+        setState(() {
+          initialLink = link;
+        });
       }
     }, onError: (err) {
       print(err);
@@ -47,8 +70,18 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    if (initialLink != null) {
+      final uri = Uri.parse(initialLink!);
+      final token = uri.queryParameters['token'];
+      if (token != null) {
+        Future.delayed(Duration.zero, () {
+          _navigateToResetPassword(token);
+        });
+      }
+    }
     return MaterialApp(
       title: 'Meu App Flutter',
+      navigatorKey: navigatorKey,
       initialRoute: '/',
       onGenerateRoute: (settings) {
         if (settings.name == '/redefinir_senha') {
@@ -63,9 +96,13 @@ class _MyAppState extends State<MyApp> {
       },
       routes: {
         '/': (context) => Home(),
-        '/login': (context) => LoginPage(),
+        '/login': (context) => LogIn(),
         // Adicione outras rotas conforme necessário
       },
     );
+  }
+
+  void _navigateToResetPassword(String token) {
+    navigatorKey.currentState?.pushNamed('/redefinir_senha', arguments: token);
   }
 }

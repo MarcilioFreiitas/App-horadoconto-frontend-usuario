@@ -5,7 +5,7 @@ void signup(String name, String lastName, String email, String password,
     String cpf) async {
   try {
     final response = await http.post(
-      Uri.parse('http://10.0.0.101:8080/auth/register'),
+      Uri.parse('http://10.0.0.104:8080/auth/register'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
