@@ -1,13 +1,14 @@
 ## 🚀 Imagens
-![Bookdetails](https://github.com/user-attachments/assets/a3b655d9-d4e2-4484-b54f-44c489e7b545)
+<img src="https://github.com/user-attachments/assets/a3b655d9-d4e2-4484-b54f-44c489e7b545" width="300" height="200">
 
-![Catalog](https://github.com/user-attachments/assets/ff0cad6e-70e1-4979-827c-9ad58305ec7b)
+<img src="https://github.com/user-attachments/assets/ff0cad6e-70e1-4979-827c-9ad58305ec7b" width="300" height="200">
 
-![Contact](https://github.com/user-attachments/assets/d65b0050-f0dd-450d-9b3e-f119e9ab61d2)
+<img src="https://github.com/user-attachments/assets/d65b0050-f0dd-450d-9b3e-f119e9ab61d2" width="300" height="200">
 
-![HomePage](https://github.com/user-attachments/assets/8a20e08b-7af2-4dfd-b318-32ec2db251b1)
+<img src="https://github.com/user-attachments/assets/8a20e08b-7af2-4dfd-b318-32ec2db251b1" width="300" height="200">
 
-![Profile](https://github.com/user-attachments/assets/bcc4a08f-f927-4878-a5ea-1ca96375c781)
+<img src="https://github.com/user-attachments/assets/bcc4a08f-f927-4878-a5ea-1ca96375c781" width="300" height="200">
+
 
 # 📚 Frontend da Biblioteca de Livros
 
