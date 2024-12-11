@@ -7,7 +7,7 @@
 
 <img src="https://github.com/user-attachments/assets/8a20e08b-7af2-4dfd-b318-32ec2db251b1" width="300" height="200">
 
-<img src="https://github.com/user-attachments/assets/bcc4a08f-f927-4878-a5ea-1ca96375c781" width="300" height="200">
+<img src="https://github.com/user-attachments/assets/bcc4a08f-f927-4878-a5ea-1ca96375c781" width="200" height="400">
 
 
 # 📚 Frontend da Biblioteca de Livros
