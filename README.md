@@ -33,8 +33,8 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 Para rodar este projeto na sua máquina, siga as instruções abaixo:
 
 1. Clone este repositório para a sua máquina.
-2. Navegue até a pasta do projeto e execute `npm install` para instalar todas as dependências.
-3. Execute `npm start` para iniciar o servidor de desenvolvimento.
+2. Navegue até a pasta do projeto e execute `flutter pub get` para instalar todas as dependências.
+3. Execute `flutter run` para iniciar o servidor de desenvolvimento.
 4. Abra o navegador e acesse `http://localhost:3000`.
 
 
