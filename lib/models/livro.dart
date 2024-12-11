@@ -9,16 +9,40 @@ class Livro {
   final String isbn;
   final String imagem_capa;
   final String disponibilidade;
+  bool isFavorite;
 
-  Livro(
-      {required this.id,
-      required this.titulo,
-      required this.autor,
-      required this.genero,
-      required this.sinopse,
-      required this.isbn,
-      required this.imagem_capa,
-      required this.disponibilidade});
+  // Mapa de gêneros para nomes amigáveis
+  static const Map<String, String> generoMap = {
+    "FICCAO": "Ficção",
+    "NAO_FICCAO": "Não Ficção",
+    "ROMANCE": "Romance",
+    "FANTASIA": "Fantasia",
+    "TERROR": "Terror",
+    "MISTERIO": "Mistério",
+    "BIOGRAFIA": "Biografia",
+    "HISTORIA": "História",
+    "CIENCIA": "Ciência",
+    "POESIA": "Poesia",
+  };
+
+  Livro({
+    required this.id,
+    required this.titulo,
+    required this.autor,
+    required this.genero,
+    required this.sinopse,
+    required this.isbn,
+    required this.imagem_capa,
+    required this.disponibilidade,
+    this.isFavorite = false,
+  });
+
+  void toggleFavorite() {
+    isFavorite = !isFavorite;
+  }
+
+  // Getter para o nome amigável do gênero
+  String get generoAmigavel => generoMap[genero] ?? "Desconhecido";
 
   factory Livro.fromJson(Map<String, dynamic> json) {
     return Livro(

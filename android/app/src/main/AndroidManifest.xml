@@ -1,6 +1,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <queries>
+        <!-- Permite abrir o WhatsApp -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" android:host="wa.me" />
+        </intent>
+         <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="malito" />
+         </intent>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="mailto" />
+        </intent>
+    </queries>
+
 
     <application
         android:label="hora_do_conto"

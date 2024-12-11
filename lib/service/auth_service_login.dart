@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hora_do_conto/views/home/home_screen.dart';
 import 'package:hora_do_conto/views/tela_inicial.dart';
+import 'package:hora_do_conto/widgets/config.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decode/jwt_decode.dart';
@@ -10,7 +12,7 @@ import '../models/usuario.dart';
 
 void login(String email, String password, BuildContext context) async {
   final response = await http.post(
-    Uri.parse('http://10.0.0.104:8080/auth/login'),
+    Uri.parse('${Config.baseUrl}/auth/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -49,9 +51,17 @@ void login(String email, String password, BuildContext context) async {
       List<Livro> livros = await getLivros(token);
 
       // Navegar para a TelaInicial com a lista de livros
-      Navigator.push(
+      /*Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => TelaInicial(livros: livros)),
+      );*/
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              HomeScreen(livros: livros), // Passa a lista para HomeScreen
+        ),
       );
     } else if (response.statusCode == 401) {
       // Tratamento de erro para credenciais inválidas
@@ -92,7 +102,7 @@ void showErrorMessage(BuildContext context, String message) {
 
 Future<List<Livro>> getLivros(String token) async {
   final response = await http.get(
-    Uri.parse('http://10.0.0.104:8080/livros/listar'),
+    Uri.parse('${Config.baseUrl}/livros/listar'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + token,

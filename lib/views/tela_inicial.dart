@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hora_do_conto/views/detalhes_emprestimo.dart';
 import 'package:hora_do_conto/views/gerenciar_emprestimo.dart';
-import 'package:hora_do_conto/views/livro_search.dart';
-import 'package:hora_do_conto/views/login.dart';
-import 'package:hora_do_conto/views/tela_perfil.dart';
+import 'package:hora_do_conto/views/home/components/livro_search.dart';
+import 'package:hora_do_conto/views/login-sigup/login.dart';
+import 'package:hora_do_conto/views/profile/tela_perfil.dart';
+import 'package:hora_do_conto/widgets/config.dart';
 import '../models/livro.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -19,7 +20,7 @@ class TelaInicial extends StatefulWidget {
 
 class _TelaInicialState extends State<TelaInicial> {
   String servidor =
-      'http://10.0.0.104:8080'; // Adicione a URL base do seu servidor aqui
+      '${Config.baseUrl}'; // Adicione a URL base do seu servidor aqui
   List<Livro> livrosExibidos = [];
   ScrollController _scrollController = ScrollController();
   bool isFiltered = false;

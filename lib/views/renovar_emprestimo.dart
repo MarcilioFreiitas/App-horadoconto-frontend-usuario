@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:hora_do_conto/widgets/config.dart';
 import 'package:http/http.dart' as http;
 
 class RenovarEmprestimoDialog extends StatefulWidget {
@@ -43,7 +44,7 @@ class _RenovarEmprestimoDialogState extends State<RenovarEmprestimoDialog> {
     try {
       final response = await http.put(
         Uri.parse(
-            'http://10.0.0.104:8080/emprestimo/renovarEmprestimo/${widget.emprestimoId}'),
+            '${Config.baseUrl}/emprestimo/renovarEmprestimo/${widget.emprestimoId}'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'dataDevolucao': selectedDate.toIso8601String()}),
       );

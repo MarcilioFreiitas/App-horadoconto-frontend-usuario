@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hora_do_conto/widgets/config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -48,7 +49,7 @@ class _EditarPerfilScreenState extends State<EditarPerfilScreen> {
 
       final response = await http.patch(
         Uri.parse(
-            'http://10.0.0.104:8080/usuarios/alterar/${widget.userInfo['id']}'),
+            '${Config.baseUrl}/usuarios/alterar/${widget.userInfo['id']}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

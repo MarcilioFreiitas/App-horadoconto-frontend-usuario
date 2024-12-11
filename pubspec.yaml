@@ -42,6 +42,13 @@ dependencies:
   uni_links: ^0.5.1
   flutter_local_notifications: ^9.0.0
   timezone: ^0.8.0
+  flutter_svg: ^2.0.7 
+  carousel_slider: ^4.0.0
+  flutter_native_splash: ^2.3.2
+  flutter_launcher_icons: "^0.13.1"
+  url_launcher: ^6.1.6
+
+  
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +68,17 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/
+    - assets/icons/
+    - assets/book_Images/
+
+  fonts:
+    - family: Muli
+      fonts:
+        - asset: assets/fonts/muli/Muli.ttf
+        - asset: assets/fonts/muli/Muli-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/muli/Muli-Light.ttf
+          weight: 300  
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

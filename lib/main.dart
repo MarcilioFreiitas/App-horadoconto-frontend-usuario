@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hora_do_conto/views/home.dart';
-import 'package:hora_do_conto/views/login.dart';
-import 'package:hora_do_conto/views/redefinir_senha.dart';
+import 'package:hora_do_conto/views/login-sigup/login.dart';
+import 'package:hora_do_conto/views/login-sigup/redefinir_senha.dart';
+import 'package:hora_do_conto/widgets/size_config.dart';
 import 'package:uni_links/uni_links.dart';
 import 'dart:async';
-import 'views/home_page.dart';
-import 'views/login_page.dart';
+import 'views/login-sigup/home_page.dart';
+import 'views/login-sigup/login_page.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -79,6 +80,7 @@ class _MyAppState extends State<MyApp> {
         });
       }
     }
+    SizeConfig().init(context);
     return MaterialApp(
       title: 'Meu App Flutter',
       navigatorKey: navigatorKey,
