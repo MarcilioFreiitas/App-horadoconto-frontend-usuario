@@ -48,7 +48,7 @@ class _EditarPerfilScreenState extends State<EditarPerfilScreen> {
 
       final response = await http.patch(
         Uri.parse(
-            'http://10.0.0.104:8080/usuarios/alterar/${widget.userInfo['id']}'),
+            'http://10.0.0.105:8080/usuarios/alterar/${widget.userInfo['id']}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

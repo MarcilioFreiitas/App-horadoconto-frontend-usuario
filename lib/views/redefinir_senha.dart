@@ -58,7 +58,7 @@ class ResetPasswordPage extends StatelessWidget {
 
   void _resetPassword(BuildContext context, String password) async {
     final response = await http.post(
-      Uri.parse('http://10.0.0.104:8080/password/save'),
+      Uri.parse('http://10.0.0.105:8080/password/save'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'token': token, 'password': password}),
     );

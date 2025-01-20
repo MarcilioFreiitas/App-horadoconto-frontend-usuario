@@ -59,7 +59,7 @@ class ForgotPasswordPage extends StatelessWidget {
     );
 
     final response = await http.post(
-      Uri.parse('http://10.0.0.104:8080/password/reset'),
+      Uri.parse('http://10.0.0.105:8080/password/reset'),
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       body: {'email': email},
     );

@@ -5,11 +5,13 @@ import 'package:hora_do_conto/views/renovar_emprestimo.dart';
 class EmprestimosWidget extends StatelessWidget {
   final List<Map<String, dynamic>> emprestimos;
   final bool Function(String status) isEmprestado;
+  final Widget Function(String imagePath) renderImage;
 
   const EmprestimosWidget({
     Key? key,
     required this.emprestimos,
     required this.isEmprestado,
+    required this.renderImage,
   }) : super(key: key);
 
   @override
@@ -23,10 +25,12 @@ class EmprestimosWidget extends StatelessWidget {
           final dataRetirada = emprestimo['dataRetirada'];
           final dataDevolucao = emprestimo['dataDevolucao'];
           final status = emprestimo['statusEmprestimo'];
+          final imagem = emprestimo['imagem'];
 
           final bool podeRenovar = isEmprestado(status);
 
           return ListTile(
+            leading: renderImage(imagem),
             title: Text(titulo),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

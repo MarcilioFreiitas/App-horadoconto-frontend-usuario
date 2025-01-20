@@ -4,8 +4,7 @@ import 'package:hora_do_conto/views/login.dart';
 import 'package:hora_do_conto/views/redefinir_senha.dart';
 import 'package:uni_links/uni_links.dart';
 import 'dart:async';
-import 'views/home_page.dart';
-import 'views/login_page.dart';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 

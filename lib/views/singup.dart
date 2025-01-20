@@ -3,6 +3,7 @@ import 'package:hora_do_conto/service/auth_service_sigunp.dart';
 import 'package:hora_do_conto/views/login.dart';
 import 'package:hora_do_conto/widgets/my_input_field.dart';
 import 'package:hora_do_conto/widgets/my_text_button.dart';
+import 'package:cpf_cnpj_validator/cpf_validator.dart'; // Importando a biblioteca de validação de CPF
 
 class SingUp extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class _SingUpState extends State<SingUp> {
   late TextEditingController emailController;
   late TextEditingController cpfController;
   late TextEditingController passwordController;
+  late TextEditingController confirmPasswordController;
 
   bool _isLoading = false;
   String _errorMessage = "";
@@ -27,6 +29,12 @@ class _SingUpState extends State<SingUp> {
     emailController = TextEditingController();
     cpfController = TextEditingController();
     passwordController = TextEditingController();
+    confirmPasswordController = TextEditingController();
+  }
+
+  bool isEmailValid(String email) {
+    final regex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    return regex.hasMatch(email);
   }
 
   @override
@@ -124,7 +132,7 @@ class _SingUpState extends State<SingUp> {
                               this.emailController.text = value;
                             },
                             validator: (value) {
-                              if (value!.isEmpty || !value.contains('@')) {
+                              if (value!.isEmpty || !isEmailValid(value)) {
                                 return 'Por favor, insira um e-mail válido';
                               }
                               return null;
@@ -142,6 +150,8 @@ class _SingUpState extends State<SingUp> {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Por favor, insira seu CPF';
+                              } else if (!CPFValidator.isValid(value)) {
+                                return 'CPF inválido';
                               }
                               return null;
                             },
@@ -165,6 +175,21 @@ class _SingUpState extends State<SingUp> {
                           ),
                           SizedBox(
                             height: 30,
+                          ),
+                          MyinputField(
+                            label: 'Confirme a Senha',
+                            placeholder: "Confirme a Senha",
+                            onChange: (value) {
+                              this.confirmPasswordController.text = value;
+                            },
+                            isSenhaField: true,
+                            validator: (value) {
+                              if (value!.isEmpty ||
+                                  value != passwordController.text) {
+                                return 'As senhas não coincidem';
+                              }
+                              return null;
+                            },
                           ),
                           SizedBox(
                             height: 30,

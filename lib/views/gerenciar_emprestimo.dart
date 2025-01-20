@@ -49,7 +49,7 @@ class _EmprestimosComponentState extends State<EmprestimosComponent> {
       if (userId != null) {
         final response = await http.get(
           Uri.parse(
-              'http://10.0.0.104:8080/emprestimo/listarEmprestimosUsuario/$userId'),
+              'http://10.0.0.105:8080/emprestimo/listarEmprestimosUsuario/$userId'),
         );
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
@@ -175,6 +175,10 @@ class _EmprestimosComponentState extends State<EmprestimosComponent> {
       body: EmprestimosWidget(
         emprestimos: filteredEmprestimos,
         isEmprestado: _isEmprestado,
+        renderImage: (String imagePath) {
+          final imageUrl = 'http://10.0.0.105:8080$imagePath';
+          return Image.network(imageUrl);
+        },
       ),
     );
   }
