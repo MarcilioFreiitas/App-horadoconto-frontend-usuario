@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:hora_do_conto/widgets/config.dart';
 import 'package:hora_do_conto/widgets/emprestimos_widgets.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -49,7 +50,7 @@ class _EmprestimosComponentState extends State<EmprestimosComponent> {
       if (userId != null) {
         final response = await http.get(
           Uri.parse(
-              'http://10.0.0.105:8080/emprestimo/listarEmprestimosUsuario/$userId'),
+              '${Config.baseUrl}/emprestimo/listarEmprestimosUsuario/$userId'),
         );
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
@@ -175,10 +176,6 @@ class _EmprestimosComponentState extends State<EmprestimosComponent> {
       body: EmprestimosWidget(
         emprestimos: filteredEmprestimos,
         isEmprestado: _isEmprestado,
-        renderImage: (String imagePath) {
-          final imageUrl = 'http://10.0.0.105:8080$imagePath';
-          return Image.network(imageUrl);
-        },
       ),
     );
   }

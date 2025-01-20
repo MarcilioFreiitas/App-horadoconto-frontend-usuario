@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hora_do_conto/views/login.dart';
-import 'package:hora_do_conto/views/singup.dart';
+import 'package:hora_do_conto/views/login-sigup/login.dart';
+import 'package:hora_do_conto/views/login-sigup/singup.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});

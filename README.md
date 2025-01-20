@@ -1,3 +1,14 @@
+## 🚀 Imagens
+<img src="https://github.com/user-attachments/assets/a3b655d9-d4e2-4484-b54f-44c489e7b545" width="200" height="400">
+
+<img src="https://github.com/user-attachments/assets/ff0cad6e-70e1-4979-827c-9ad58305ec7b" width="200" height="400">
+
+<img src="https://github.com/user-attachments/assets/d65b0050-f0dd-450d-9b3e-f119e9ab61d2" width="200" height="400">
+
+<img src="https://github.com/user-attachments/assets/8a20e08b-7af2-4dfd-b318-32ec2db251b1" width="200" height="400">
+
+<img src="https://github.com/user-attachments/assets/bcc4a08f-f927-4878-a5ea-1ca96375c781" width="200" height="400">
+
 
 # 📚 Frontend da Biblioteca de Livros
 
@@ -22,8 +33,8 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 Para rodar este projeto na sua máquina, siga as instruções abaixo:
 
 1. Clone este repositório para a sua máquina.
-2. Navegue até a pasta do projeto e execute `npm install` para instalar todas as dependências.
-3. Execute `npm start` para iniciar o servidor de desenvolvimento.
+2. Navegue até a pasta do projeto e execute `flutter pub get` para instalar todas as dependências.
+3. Execute `flutter run` para iniciar o servidor de desenvolvimento.
 4. Abra o navegador e acesse `http://localhost:3000`.
 
 
