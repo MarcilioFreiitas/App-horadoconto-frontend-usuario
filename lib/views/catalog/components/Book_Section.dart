@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hora_do_conto/models/livro.dart';
+import 'package:hora_do_conto/views/details/details_screen.dart';
 import 'package:hora_do_conto/views/home/components/book_card.dart';
-import 'package:hora_do_conto/views/profile/tela_perfil.dart';
+
 import 'package:hora_do_conto/widgets/size_config.dart';
 
 class CatalogBookSection extends StatelessWidget {
@@ -46,8 +47,10 @@ class CatalogBookSection extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            PerfilScreen(), // Navegação conforme necessário
+                        builder: (context) => DetailsScreen(
+                          book: books[index],
+                          livros: books,
+                        ), // Ajuste conforme necessário
                       ),
                     );
                   },

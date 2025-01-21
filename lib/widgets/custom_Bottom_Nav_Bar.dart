@@ -3,7 +3,7 @@ import "package:hora_do_conto/views/Favorites/favorites_screen.dart";
 import "package:hora_do_conto/views/contact/contact_screen.dart";
 import "package:hora_do_conto/views/home/home_screen.dart";
 import "package:hora_do_conto/views/profile/Profile_Screen.dart";
-import "package:hora_do_conto/views/profile/tela_perfil.dart";
+
 import "package:hora_do_conto/widgets/enums.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hora_do_conto/views/login-sigup/VerifyCodePage.dart';
 import 'package:hora_do_conto/widgets/config.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,38 +12,68 @@ class ForgotPasswordPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Esqueceu a Senha"),
         backgroundColor: Colors.black,
+        centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Por favor, insira seu email para solicitar a redefinição de senha.",
-              style: TextStyle(fontSize: 16),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 30),
+                Icon(
+                  Icons.lock_open,
+                  size: 100,
+                  color: Colors.black,
+                ),
+                SizedBox(height: 30),
+                Text(
+                  "Por favor, insira seu email para solicitar a redefinição de senha.",
+                  style: TextStyle(fontSize: 16, color: Colors.black),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: "Email",
+                    labelStyle: TextStyle(color: Colors.black),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                  ),
+                  style: TextStyle(color: Colors.black),
+                  cursorColor: Colors.black,
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _requestPasswordReset(context, _emailController.text);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      textStyle: TextStyle(fontSize: 18),
+                    ),
+                    child: Text("Enviar"),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 20),
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(labelText: "Email"),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Chamar API para solicitar redefinição de senha
-                _requestPasswordReset(context, _emailController.text);
-              },
-              style: ElevatedButton.styleFrom(primary: Colors.black),
-              child: Text("Enviar"),
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 
   void _requestPasswordReset(BuildContext context, String email) async {
-    // Mostrar o diálogo de carregamento
+    // Mostrar diálogo de carregamento
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -65,17 +96,24 @@ class ForgotPasswordPage extends StatelessWidget {
       body: {'email': email},
     );
 
-    // Fechar o diálogo de carregamento
     Navigator.of(context).pop();
 
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Email de redefinição de senha enviado!')),
+        SnackBar(content: Text('Código enviado para o seu email!')),
+      );
+      // Navegar para a tela de verificação do código
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VerifyCodePage(email: email),
+        ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('Erro ao enviar email de redefinição de senha.')),
+          content: Text('Erro ao enviar o código de redefinição de senha.'),
+        ),
       );
     }
   }

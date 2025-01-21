@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hora_do_conto/views/home/home_screen.dart';
-import 'package:hora_do_conto/views/tela_inicial.dart';
+
 import 'package:hora_do_conto/widgets/config.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';

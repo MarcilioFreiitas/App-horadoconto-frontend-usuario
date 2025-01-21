@@ -5,8 +5,7 @@ import 'package:hora_do_conto/views/login-sigup/redefinir_senha.dart';
 import 'package:hora_do_conto/widgets/size_config.dart';
 import 'package:uni_links/uni_links.dart';
 import 'dart:async';
-import 'views/login-sigup/home_page.dart';
-import 'views/login-sigup/login_page.dart';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -61,6 +60,17 @@ class _MyAppState extends State<MyApp> {
     }, onError: (err) {
       print(err);
     });
+
+    try {
+      final initialLink = await getInitialLink();
+      if (initialLink != null) {
+        setState(() {
+          this.initialLink = initialLink;
+        });
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
   @override
@@ -75,7 +85,7 @@ class _MyAppState extends State<MyApp> {
       final uri = Uri.parse(initialLink!);
       final token = uri.queryParameters['token'];
       if (token != null) {
-        Future.delayed(Duration.zero, () {
+        WidgetsBinding.instance!.addPostFrameCallback((_) {
           _navigateToResetPassword(token);
         });
       }
